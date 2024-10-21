@@ -7,4 +7,6 @@ CREATE TABLE IF NOT EXISTS Nasabah (
     Email VARCHAR(100),
     Tanggal_Lahir DATE
 );
+CREATE INDEX idx_akun_id_nasabah ON Akun(ID_Nasabah);
+
 //DROP TABLE IF EXISTS Nasabah;

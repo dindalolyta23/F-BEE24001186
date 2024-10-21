@@ -7,4 +7,6 @@ CREATE TABLE IF NOT EXISTS Transaksi (
     Tanggal_Transaksi DATE,
     FOREIGN KEY (ID_Akun) REFERENCES Akun(ID_Akun)
 );
+CREATE INDEX idx_transaksi_id_akun ON Transaksi(ID_Akun);
+
 //DROP TABLE IF EXISTS Transaksi;
