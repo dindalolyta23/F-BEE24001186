@@ -7,4 +7,6 @@ CREATE TABLE IF NOT EXISTS Akun (
     Tanggal_Dibuat DATE,
     FOREIGN KEY (ID_Nasabah) REFERENCES Nasabah(ID_Nasabah)
 );
+CREATE INDEX idx_nasabah_nama ON Nasabah(Nama);
+
 //DROP TABLE IF EXISTS Akun;

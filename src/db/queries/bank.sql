@@ -29,3 +29,5 @@ WHERE ID_Akun = 1;  -- Ganti dengan ID_Akun yang sesuai
 
 -- Hapus Transaksi dengan ID tertentu (pastikan ID ini ada di tabel Transaksi)
 DELETE FROM Transaksi WHERE ID_Transaksi = 1;  -- Ganti dengan ID_Transaksi yang sesuai
+
+
