@@ -1,54 +1,6 @@
 const { createUser, getUsers, getUserById, login } = require("../userService");
-const {prisma} = require('../../index');
+const { prisma } = require('../../index');
 const jwt = require('jsonwebtoken')
-
-// const {prisma} = require('../index');
-// const jwt = require('jsonwebtoken')
-
-// const createUser = async (data) => {
-//   return await prisma.user.create({
-//     data: {
-//       name: data.name,
-//       email: data.email,
-//       password: data.password,
-//     },
-//   });
-// };
-
-// const getUsers = async () => {
-//   return await prisma.user.findMany()
-// };
-
-// const getUserById = async (userId) => {
-//   return await prisma.user.findUnique({
-//     where: { id: parseInt(userId) },
-//   });
-// };
-
-// const login = async (data) => {
-//   const { id, password } = data;
-
-//   const user = await prisma.user.findUnique({
-//     where: { id },
-//   });
-
-//   if (!user || password !== user.password) {
-//     throw new AppError("Invalid email or password", 401);
-//   }
-
-//   const token = jwt.sign(
-//     { userId: user.id, email: user.email },
-//     process.env.JWT_SECRET,
-//     { expiresIn: "1h" }
-//   );
-
-//   return { token, user };
-// }
-
-
-// module.exports = { createUser, getUsers, getUserById, login };
-
-// unit testing for userservice
 
 jest.mock("../../index", () => ({
     prisma: {
@@ -60,45 +12,139 @@ jest.mock("../../index", () => ({
     },
 }));
 
-describe("userService", () => {
+jest.mock('jsonwebtoken', () => ({
+    sign: jest.fn(),
+}));
 
+describe("userService", () => {
     beforeEach(() => {
         jest.resetAllMocks();
         jest.restoreAllMocks();
     });
 
-    it("should create a new user", async () => {
-
-        const mockData = {
-           data : {
-            id: 1,
-            name: "John Doe",
-            email: "jane.doe@example.com",
-            password: "password123",
-            updatedAt: "2022-10-10",
-           },
-            createdAt: "2022-10-19",
-            deletedAt: null,  
-        };
-        
-        const data = {
-            name: "John Doe",   
-            email: "jane.doe@example.com",
-            password: "password123"
-        };
-
-        // const createUserMock = jest.spyOn(prisma.user, "create");
-
-        prisma.user.create.mockResolvedValue(mockData);
-
-
-        const result = await createUser(data); 
-
-        expect(prisma.user.create).toHaveBeenCalledWith(
-             mockData
-        );
-
-
+    describe("Testing function create user", () => {
+        it("should success create a new user", async () => {
+            const mockData = {
+                "id": 1,
+                "name": "fulan",
+                "email": "fulan@gmail.com",
+                "password": "password",
+                "createdAt": "2024-10-29T00:00:00.000Z",
+                "updatedAt": "2024-10-29T00:00:00.000Z",
+                "deletedAt": null
+            }
+    
+            const insertData = {
+                name: "John Doe",
+                email: "jane.doe@example.com",
+                password: "password123"
+            };
+    
+            prisma.user.create.mockResolvedValue(mockData);
+    
+            const result = await createUser(insertData);
+    
+            expect(prisma.user.create).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(mockData);
+    
+            expect(prisma.user.create).toHaveBeenCalledWith({
+                data: insertData,
+            });
+    
+        })
     })
 
+    describe("Testing function get all user", () => {
+        it("should get all users", async () => {
+            const mockData = [
+                {
+                    "id": 1,
+                    "name": "fulan",
+                    "email": "fulan@mail.com",
+                    "password": "password",
+                    "createdAt": "2024-10-29T00:00:00.000Z",
+                    "updatedAt": "2024-10-29T00:00:00.000Z",
+                    "deletedAt": null
+                },
+                {
+                    "id": 2,
+                    "name": "fulan2",
+                    "email": "fulan2@mail.com",
+                    "password": "password",
+                    "createdAt": "2024-10-29T00:00:00.000Z",
+                    "updatedAt": "2024-10-29T00:00:00.000Z",
+                    "deletedAt": null
+                }
+            ];
+    
+            prisma.user.findMany.mockResolvedValue(mockData);
+            const result = await getUsers();
+    
+            expect(prisma.user.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(mockData);
+    
+        });
+    })
+
+    describe("Testing function Get One User", () => {
+        it("should get user by id", async () => {
+            const mockData = {
+                "id": 1,
+                "name": "fulan",
+                "email": "fulan@mail.com",
+                "password": "password",
+                "createdAt": "2024-10-29T00:00:00.000Z",
+                "updatedAt": "2024-10-29T00:00:00.000Z",
+                "deletedAt": null
+            };
+    
+            const userId = 1;
+    
+            prisma.user.findUnique.mockResolvedValue(mockData);
+    
+            const result = await getUserById(userId);
+    
+            expect(prisma.user.findUnique).toHaveBeenCalledTimes(1);
+            expect(prisma.user.findUnique).toHaveBeenCalledWith({
+                where: { id: userId },
+            });
+    
+            expect(result).toEqual(mockData);
+    
+        });
+    })
+
+    describe("Testing function Login", ()=>{
+        it("should success login", async () => {
+            const mockData = {
+                "id": 1,
+                "name": "fulan",
+                "email": "fulan@mail.com",
+                "password": "password",
+                "createdAt": "2024-10-29T00:00:00.000Z",
+                "updatedAt": "2024-10-29T00:00:00.000Z",
+                "deletedAt": null
+            };
+    
+            const loginData = {
+                id: 1,
+                password: "password"
+            };
+    
+            const token = jwt.sign(
+                { userId: mockData.id, email: mockData.email },
+                'secret key',
+                { expiresIn: "1h" }
+            );
+    
+            prisma.user.findUnique.mockResolvedValue(mockData);
+    
+            const result = await login(loginData);
+    
+            expect(prisma.user.findUnique).toHaveBeenCalledTimes(1);
+    
+            expect(result).toEqual({ token, user: mockData });
+    
+        });
+    })
 });

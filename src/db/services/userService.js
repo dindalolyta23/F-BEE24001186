@@ -9,7 +9,6 @@ const createUser = async (data) => {
       password: data.password,
     },
   });
-console.log(user)
   return user
 };
 
