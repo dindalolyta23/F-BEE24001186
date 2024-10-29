@@ -12,18 +12,18 @@ const prisma = new PrismaClient();
 // app.use(express.json());
 
 // Fungsi untuk melakukan koneksi awal dengan database menggunakan Prisma
-const connectDB = async () => {
-  try {
-    await prisma.$connect();
-    console.log("Connected to the database successfully.");
-  } catch (error) {
-    console.error("Failed to connect to the database:", error);
-    process.exit(1); // Keluar dari aplikasi jika koneksi gagal
-  }
-};
+// const connectDB = async () => {
+//   try {
+//     await prisma.$connect();
+//     console.log("Connected to the database successfully.");
+//   } catch (error) {
+//     console.log("Failed to connect to the database:", error);
+//     process.exit(1); // Keluar dari aplikasi jika koneksi gagal
+//   }
+// };
 
-// Memanggil fungsi connectDB ketika aplikasi diinisialisasi
-connectDB();
+//  Memanggil fungsi connectDB ketika aplikasi diinisialisasi
+// connectDB();
 
 // Endpoint untuk mendapatkan daftar pengguna
 // app.get('/api/v1/users', async (req, res) => {
@@ -42,4 +42,4 @@ connectDB();
 // });
 
 // Ekspor prisma agar dapat digunakan di bagian lain aplikasi
-module.exports = {connectDB,prisma};
+module.exports = {prisma};

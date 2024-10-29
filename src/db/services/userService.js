@@ -1,13 +1,16 @@
 const {prisma} = require('../index');
+const jwt = require('jsonwebtoken')
 
 const createUser = async (data) => {
-  return await prisma.user.create({
+  const user =await prisma.user.create({
     data: {
       name: data.name,
       email: data.email,
       password: data.password,
     },
   });
+console.log(user)
+  return user
 };
 
 const getUsers = async () => {
@@ -20,25 +23,25 @@ const getUserById = async (userId) => {
   });
 };
 
-// const updateUser = async (userId,data) => {
-//   return await prisma.user.update({
-//     where: {
-//       id: parseInt(userId)
-//     },
-//     data:{
-//       name: data.name,
-//       email: data.email,
-//       password: data.password,
-//     }
-//   })
-// }
+const login = async (data) => {
+  const { id, password } = data;
 
-// const deleteUser = async (userId) => {
-//   return await account.delete({
-//     where:{
-//       id : parseInt(userId)
-//     }
-//   })
-// }
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
 
-module.exports = { createUser, getUsers, getUserById };
+  if (!user || password !== user.password) {
+    throw new AppError("Invalid email or password", 401);
+  }
+
+  const token = jwt.sign(
+    { userId: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
+  return { token, user };
+}
+
+
+module.exports = { createUser, getUsers, getUserById, login };

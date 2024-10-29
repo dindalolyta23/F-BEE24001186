@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById,updateUser,deleteUser } = require('../db/services/userService');
+const { createUser, getUsers, getUserById,updateUser,deleteUser, login } = require('../db/services/userService');
 
 const createNewUser = async (req, res) => {
   try {
@@ -46,4 +46,13 @@ const updateUserById = async (req,res) => {
   }
 }
 
-module.exports = { createNewUser, getAllUsers, getUserDetails,updateUserById };
+const loginUser = async (req, res) => {
+  try {
+    const token = await login(req.body);
+    res.status(201).json(token);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createNewUser, getAllUsers, getUserDetails,updateUserById, loginUser };

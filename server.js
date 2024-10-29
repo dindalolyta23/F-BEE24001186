@@ -5,11 +5,17 @@ const prisma = new PrismaClient();
 const {getAllAccounts,getAccountById} = require('./src/controllers/accountController');
 const {connectDB} = require('./src/db/index');
 const {transferMoney, getAllTransactions, getTransactionDetails} = require('./src/controllers/transactionController');
-const { createNewUser, getAllUsers, getUserDetails } = require('./src/controllers/userController');
-
+const { createNewUser, getAllUsers, getUserDetails, loginUser } = require('./src/controllers/userController');
+const swaggerUi =require('swagger-ui-express')
+const {verifyToken} = require('./auth')
+// const {swaggerSpec} = require('./src/swaggerOption')
 
 app.use(express.json()); // Middleware untuk mem-parsing JSON
 app.use(express.urlencoded({ extended: true })); // Middleware untuk mem-parsing URL-encoded
+// app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Endpoint untuk membuat akun baru
 app.post('/api/v1/accounts', async (req, res) => {
@@ -59,14 +65,15 @@ app.get('/api/v1/accounts/:id', async (req,res) => {
     }
 });
 // Endpoint Untuk Transaksi
-app.post('/api/v1/transactions', transferMoney)
-app.get('/api/v1/transactions', getAllTransactions)
-app.get('/api/v1/transactions/:transactionId', getTransactionDetails)
+app.post('/api/v1/transactions', verifyToken, transferMoney)
+app.get('/api/v1/transactions', verifyToken, getAllTransactions)
+app.get('/api/v1/transactions/:transactionId', verifyToken, getTransactionDetails)
 
 // * Endpoint untuk membuat User Baru
 app.get('/api/v1/users', getAllUsers)
 app.post('/api/v1/users', createNewUser)
-app.get('/api/v1/users/:userId', getUserDetails)
+app.get('/api/v1/users/:userId', verifyToken, getUserDetails)
+app.post('/api/v1/users/login/', loginUser)
 
 // Memulai server
 const PORT = 3000;
