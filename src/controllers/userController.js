@@ -1,7 +1,12 @@
-const { createUser, getUsers, getUserById,updateUser,deleteUser, login } = require('../db/services/userService');
+const { createUser, getUsers, getUserById, login } = require('../services/userService');
+const userValidation = require('../validations/userValidation');
 
 const createNewUser = async (req, res) => {
   try {
+    const { error } = userValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    } 
     const newUser = await createUser(req.body);
     res.status(201).json(newUser);
   } catch (error) {

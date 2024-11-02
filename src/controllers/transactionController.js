@@ -1,4 +1,4 @@
-const { createTransaction, getTransactions, getTransactionById } = require('../db/services/transactionService');
+const { createTransaction, getTransactions, getTransactionById } = require('../services/transactionService');
 
 const transferMoney = async (req, res) => {
   try {

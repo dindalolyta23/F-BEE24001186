@@ -1,7 +1,12 @@
-const { createAccount, getAccounts, getAccountDetails } = require('../db/services/accountService');
+const { createAccount, getAccounts, getAccountDetails } = require('../services/accountService');
+const accountValidation = require('../validations/accountValidation');
 
 const addNewAccount = async (req, res) => {
-  try {
+  try { 
+    const { error } = accountValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
     const account = await createAccount(req.body);
     res.status(201).json(account);
   } catch (error) {
