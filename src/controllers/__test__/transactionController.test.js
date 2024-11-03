@@ -1,62 +1,23 @@
-// const { createTransaction, getTransactions, getTransactionById } = require('../db/services/transactionService');
-
-// const transferMoney = async (req, res) => {
-//   try {
-//     const transaction = await createTransaction(req.body);
-//     res.status(201).json(transaction);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// const getAllTransactions = async (req, res) => {
-//   try {
-//     const transactions = await getTransactions();
-//     res.status(200).json(transactions);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// const getTransactionDetails = async (req, res) => {
-//   try {
-//     const transaction = await getTransactionById(req.params.transactionId);
-//     if (transaction) {
-//       res.status(200).json(transaction);
-//     } else {
-//       res.status(404).json({ message: 'Transaction not found' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// module.exports = { transferMoney, getAllTransactions, getTransactionDetails };
-
-// Unit Testing for Controller transactionController.js
-const { createTransaction, getTransactions, getTransactionById } = require('../../db/services/transactionService');
+const { createTransaction, getTransactions, getTransactionById } = require('../../services/transactionService');
 const { transferMoney, getAllTransactions, getTransactionDetails } = require('../transactionController');
 
-jest.mock('../../db/services/transactionService');
+jest.mock('../../services/transactionService');
 
 describe('transactionController', () => {
     describe('transferMoney', () => {
-        it('should create a new transaction', async () => {
+        it('should transfer money successfully', async () => {
             const mockData = {
                 "id": 1,
                 "amount": 100000,
                 "source_account_id": 1,
-                "destination_account_id": 2,
-                "createdAt": "2024-10-29T00:00:00.000Z",
-                "updatedAt": "2024-10-29T00:00:00.000Z",
-                "deletedAt": null
+                "destination_account_id": 2
             };
 
             const req = {
                 body: {
                     amount: 100000,
-                    source_account_id: 1,
-                    destination_account_id: 2
+                    sourceAccountId: 1,
+                    destinationAccountId: 2
                 }
             };
 
@@ -75,12 +36,11 @@ describe('transactionController', () => {
             expect(res.json).toHaveBeenCalledWith(mockData);
         });
 
-        it('should return error when failed to create a new transaction', async () => {
+        it('should return error when validation failed', async () => {
             const req = {
                 body: {
                     amount: 100000,
-                    source_account_id: 1,
-                    destination_account_id: 2
+                    sourceAccountId: 1,
                 }
             };
 
@@ -89,15 +49,41 @@ describe('transactionController', () => {
                 json: jest.fn()
             };
 
-            createTransaction.mockRejectedValue(new Error('Failed to create transaction'));
+            const mockError = {
+                error: '"destinationAccountId" is required'
+            };
+
+            await transferMoney(req, res);
+
+            expect(createTransaction).toHaveBeenCalledTimes(1);
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith(mockError);
+        });
+
+        it('should return error when failed to transfer money', async () => {
+            const req = {
+                body: {
+                    amount: 100000,
+                    sourceAccountId: 1,
+                    destinationAccountId: 2
+                }
+            };
+
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+
+            createTransaction.mockRejectedValue(new Error('Failed to transfer money'));
 
             await transferMoney(req, res);
 
             expect(createTransaction).toHaveBeenCalledTimes(2);
             expect(createTransaction).toHaveBeenCalledWith(req.body);
             expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({ error: 'Failed to create transaction' });
+            expect(res.json).toHaveBeenCalledWith({ error: 'Failed to transfer money' });
         });
+
     });
 
     describe('getAllTransactions', () => {
@@ -128,6 +114,23 @@ describe('transactionController', () => {
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith(mockData);
         });
+
+        it('should return error when failed to get all transactions', async () => {
+            const req = {};
+            const res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+
+            getTransactions.mockRejectedValue(new Error('Failed to get transactions'));
+
+            await getAllTransactions(req, res);
+
+            expect(getTransactions).toHaveBeenCalledTimes(2);
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: 'Failed to get transactions' });
+        });
+
     });
 
     describe('getTransactionDetails', () => {

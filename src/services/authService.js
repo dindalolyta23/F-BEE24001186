@@ -11,7 +11,6 @@ const login = async (data) => {
     },
   });
   
-
   if (!user) {
     throw new Error("Invalid email or password");
   }
@@ -19,7 +18,7 @@ const login = async (data) => {
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     throw new Error("Invalid email or password");
-  }     
+  }
 
   const token = jwt.sign(
     { userId: user.id, email: user.email },

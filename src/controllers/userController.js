@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById, login } = require('../services/userService');
+const { createUser, getUsers, getUserById } = require('../services/userService');
 const userValidation = require('../validations/userValidation');
 
 const createNewUser = async (req, res) => {
@@ -36,28 +36,4 @@ const getUserDetails = async (req, res) => {
   }
 };
 
-const updateUserById = async (req,res) => {
-  try{
-    const {id} = req.params
-    const user = await updateUser(id,req.body)
-    if(user){
-      res.status(200).json({
-        message: "User updated succesfully",
-        data: user
-      })
-    }
-  }catch(err){
-    res.status(500).json({message: err.message});
-  }
-}
-
-const loginUser = async (req, res) => {
-  try {
-    const token = await login(req.body);
-    res.status(201).json(token);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-module.exports = { createNewUser, getAllUsers, getUserDetails,updateUserById, loginUser };
+module.exports = { createNewUser, getAllUsers, getUserDetails };

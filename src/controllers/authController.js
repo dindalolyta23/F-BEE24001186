@@ -8,7 +8,7 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
     const token = await login(req.body);
-    res.status(201).json(token);
+    res.status(200).json(token);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

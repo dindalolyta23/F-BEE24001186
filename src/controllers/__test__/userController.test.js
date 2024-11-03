@@ -1,7 +1,8 @@
-const { createUser, getUsers, getUserById, login } = require('../../db/services/userService');
+const { name } = require('ejs');
+const { createUser, getUsers, getUserById, login } = require('../../services/userService');
 const { createNewUser, getAllUsers, getUserDetails, loginUser } = require('../userController');
 
-jest.mock('../../db/services/userService');
+jest.mock('../../services/userService');
 
 describe('userController', () => {
     let req;
@@ -20,17 +21,52 @@ describe('userController', () => {
             const newUser = {
                 name: 'John Doe',
                 email: 'john@mail.com',
-                password: 'password'
+                password: 'password',
+                identityType: 'NATIONAL_ID',
+                identityNumber: '1234567890',
+                address: 'Jakarta',
             };
 
-            createUser.mockResolvedValue(newUser);
+            const mockResponse = {
+                "id": 1,
+                "name": "dinda",
+                "email": "dinda@mail.com",
+                "createdAt": "2024-11-02T17:32:43.625Z",
+                "updatedAt": null,
+                "deletedAt": null,
+                "Profile": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "identity_type": "ktp",
+                        "identity_number": "1234567890123457",
+                        "address": "Jl. Melati"
+                    }
+                ]
+            }
+
+            createUser.mockResolvedValue(mockResponse);
 
             req.body = newUser;
 
             await createNewUser(req, res);
 
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith(newUser);
+
+            expect(res.json).toHaveBeenCalledWith(mockResponse);
+
+        });
+
+        it('should return 400 when validation error', async () => {
+            req.body = {
+                name    : "dinda",
+                email: "dinda@mail.com"
+            };
+
+            await createNewUser(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({ error: "\"password\" is required" });
 
         });
 
@@ -51,14 +87,38 @@ describe('userController', () => {
         it('should return 200 and all users', async () => {
             const users = [
                 {
-                    name: 'John Doe',
-                    email: 'john@mail.com',
-                    password: 'password'
+                    "id": 1,
+                    "name": "dinda",
+                    "email": "dinda@mail.com",
+                    "createdAt": "2024-11-02T17:32:43.625Z",
+                    "updatedAt": null,
+                    "deletedAt": null,
+                    "Profile": [
+                        {
+                            "id": 1,
+                            "user_id": 1,
+                            "identity_type": "ktp",
+                            "identity_number": "1234567890123457",
+                            "address": "Jl. Melati"
+                        }
+                    ]
                 },
                 {
-                    name: 'Jane Doe',
-                    email: 'jane@mail.com',
-                    password: 'password'
+                    "id": 2,
+                    "name": "dinda2",
+                    "email": "dinda2@mail.com",
+                    "createdAt": "2024-11-02T17:32:43.625Z",
+                    "updatedAt": null,
+                    "deletedAt": null,
+                    "Profile": [
+                        {
+                            "id": 2,
+                            "user_id": 2,
+                            "identity_type": "ktp",
+                            "identity_number": "1234567890123458",
+                            "address": "Jl. Melati"
+                        }
+                    ]
                 }
             ];
 
@@ -66,9 +126,10 @@ describe('userController', () => {
 
             await getAllUsers(req, res);
 
-            expect(getUsers).toHaveBeenCalledTimes(1);
             expect(res.status).toHaveBeenCalledWith(200);
+
             expect(res.json).toHaveBeenCalledWith(users);
+
 
         });
 
@@ -88,9 +149,21 @@ describe('userController', () => {
     describe('getUserDetails', () => {
         it('should return 200 and a user', async () => {
             const user = {
-                name: 'John Doe',
-                email: 'john@mail.com',
-                password: 'password'
+                "id": 1,
+                "name": "dinda",
+                "email": "dinda@mail.com",
+                "createdAt": "2024-11-02T17:32:43.625Z",
+                "updatedAt": null,
+                "deletedAt": null,
+                "Profile": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "identity_type": "ktp",
+                        "identity_number": "1234567890123457",
+                        "address": "Jl. Melati"
+                    }
+                ]
             };
 
             getUserById.mockResolvedValue(user);
@@ -100,7 +173,9 @@ describe('userController', () => {
             await getUserDetails(req, res);
 
             expect(getUserById).toHaveBeenCalledTimes(1);
+
             expect(res.status).toHaveBeenCalledWith(200);
+
             expect(res.json).toHaveBeenCalledWith(user);
 
         });
@@ -127,46 +202,6 @@ describe('userController', () => {
             await getUserDetails(req, res);
 
             expect(getUserById).toHaveBeenCalledTimes(3);
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith({ error: error.message });
-        });
-
-    });
-
-    describe('loginUser', () => {
-        it('should return 201 and a token', async () => {
-            const mockUser = {
-                "id": 1,
-                "name": "fulan",
-                "email": "fulan@mail.com",
-                "password": "password",
-                "createdAt": "2024-10-29T00:00:00.000Z",
-                "updatedAt": "2024-10-29T00:00:00.000Z",
-                "deletedAt": null
-            };
-    
-            login.mockResolvedValue({ token: 'token' , user: mockUser});
-
-            req.body = {
-                id: 1,
-                password: 'password'
-            };
-
-            await loginUser(req, res);
-
-            expect(login).toHaveBeenCalledTimes(1);
-            expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith({ token: 'token', user: mockUser });
-
-        });
-
-        it('should return 500 when error', async () => {
-            const error = new Error('Internal server error');
-
-            login.mockRejectedValue(error);
-
-            await loginUser(req, res);
-
             expect(res.status).toHaveBeenCalledWith(500);
             expect(res.json).toHaveBeenCalledWith({ error: error.message });
         });

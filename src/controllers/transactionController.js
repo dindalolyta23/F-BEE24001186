@@ -1,7 +1,12 @@
 const { createTransaction, getTransactions, getTransactionById } = require('../services/transactionService');
+const transactionValidation = require('../validations/transactionValidation');
 
 const transferMoney = async (req, res) => {
   try {
+    const { error } = transactionValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
     const transaction = await createTransaction(req.body);
     res.status(201).json(transaction);
   } catch (error) {

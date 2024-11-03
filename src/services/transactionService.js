@@ -4,8 +4,8 @@ const createTransaction = async (data) => {
   return await prisma.transaction.create({
     data: {
       amount: data.amount,
-      source_account_id: data.source_account_id,
-      destination_account_id: data.destination_account_id
+      source_account_id: data.sourceAccountId,
+      destination_account_id: data.destinationAccountId
     },
   });
 };

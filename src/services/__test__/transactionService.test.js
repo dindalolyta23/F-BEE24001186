@@ -1,7 +1,7 @@
 const { createTransaction, getTransactions, getTransactionById } = require("../transactionService");
-const { prisma } = require('../../index');
+const { prisma } = require('../../configs/database');
 
-jest.mock("../../index", () => ({
+jest.mock("../../configs/database", () => ({
     prisma: {
         transaction: {
             create: jest.fn(),
@@ -21,8 +21,8 @@ describe("transactionService", () => {
         it("should success create a new transaction", async () => {
             const insertData = {
                 amount: 100000,
-                source_account_id: 1,
-                destination_account_id: 2
+                sourceAccountId: 1,
+                destinationAccountId: 2
             };
 
             const mockData = {
@@ -30,9 +30,6 @@ describe("transactionService", () => {
                 amount: 100000,
                 source_account_id: 1,
                 destination_account_id: 2,
-                createdAt: "2024-10-29T00:00:00.000Z",
-                updatedAt: null,
-                deletedAt: null
             };
 
             prisma.transaction.create.mockResolvedValue(mockData);
@@ -42,7 +39,11 @@ describe("transactionService", () => {
             expect(prisma.transaction.create).toHaveBeenCalledTimes(1);
             expect(result).toEqual(mockData);
             expect(prisma.transaction.create).toHaveBeenCalledWith({
-                data: insertData,
+                data: {
+                    amount: insertData.amount,
+                    source_account_id: insertData.sourceAccountId,
+                    destination_account_id: insertData.destinationAccountId,
+                },
             });
         });
     });

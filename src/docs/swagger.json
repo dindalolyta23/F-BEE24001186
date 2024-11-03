@@ -1,30 +1,200 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Binar API",
+    "title": "Basic Banking System",
     "version": "1.0.0"
   },
   "servers": [
-
+    {
+      "url": "http://localhost:8000/api/v1"
+    }
   ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
   "tags": [
     {
-      "name": "user"
+      "name": "auth"
     },
     {
-      "name": "account"
+      "name": "users"
     },
     {
-      "name": "transaction"
+      "name": "accounts"
+    },
+    {
+      "name": "transactions"
     }
   ],
   "paths": {
-    "/api/v1/users": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "dinda@mail.com",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "456"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1c8-a7Ne8T8otIYgp6mPCKEUdGbtkZQ\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:27:37 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "\nInvalid `prisma.user.findUnique()` invocation in\nC:\\Users\\urang\\Documents\\My_Data\\Development\\other\\F-BEE24001186-km7-din-banking-ch2-main\\src\\services\\authService.js:8:34\n\n  5 const login = async (data) => {\n  6   const { email, password } = data;\n  7 \n→ 8   const user = await prisma.user.findUnique(\nCan't reach database server at `localhost:5432`\n\nPlease make sure your database server is running at `localhost:5432`."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
       "get": {
         "tags": [
-          "user"
+          "auth"
         ],
-        "summary": "all",
+        "summary": "not found",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "32"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"20-i+W/6oh0vBd/sJur0QM8IcJopJA\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:28:46 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Resource not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get All Users",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -44,19 +214,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "632"
+                  "example": "473"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"278-TkfJq8VSMpADMyRKPWk+q4r9s5U\""
+                  "example": "W/\"1d9-ZYQVaJ53BKdOID+Vswla/O0XniM\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 16:53:24 GMT"
+                  "example": "Sun, 03 Nov 2024 02:00:36 GMT"
                 }
               },
               "Connection": {
@@ -80,68 +250,40 @@
                 "example": [
                   {
                     "id": 1,
-                    "name": "Jane Doe",
-                    "email": "jane.doe@example.com",
-                    "password": "yourPassword123",
-                    "createdAt": "2024-10-19T08:03:36.974Z",
+                    "name": "dinda",
+                    "email": "dinda@mail.com",
+                    "createdAt": "2024-11-02T17:32:43.625Z",
                     "updatedAt": null,
-                    "deletedAt": null
-                  },
-                  {
-                    "id": 2,
-                    "name": "Jane Doe",
-                    "email": "jane.doe@example.com",
-                    "password": "yourPassword123",
-                    "createdAt": "2024-10-19T08:05:54.247Z",
-                    "updatedAt": null,
-                    "deletedAt": null
+                    "deletedAt": null,
+                    "Profile": {
+                      "id": 1,
+                      "user_id": 1,
+                      "identity_type": "ktp",
+                      "identity_number": "1234567890123457",
+                      "address": "Jl. Melati"
+                    }
                   },
                   {
                     "id": 3,
-                    "name": "Jane Doe",
-                    "email": "jane.doe@example.com",
-                    "password": "yourPassword123",
-                    "createdAt": "2024-10-19T09:49:25.954Z",
+                    "name": "dinda2",
+                    "email": "dinda2@mail.com",
+                    "createdAt": "2024-11-02T17:57:01.818Z",
                     "updatedAt": null,
-                    "deletedAt": null
-                  },
-                  {
-                    "id": 4,
-                    "name": "EinC7",
-                    "email": "EinC7@gmail.com",
-                    "password": "pembadutHandal",
-                    "createdAt": "2024-10-21T03:59:33.327Z",
-                    "updatedAt": null,
-                    "deletedAt": null
+                    "deletedAt": null,
+                    "Profile": {
+                      "id": 2,
+                      "user_id": 3,
+                      "identity_type": "ktp",
+                      "identity_number": "1234567890123457",
+                      "address": "Jl. Melati"
+                    }
                   }
                 ]
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "store",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "name": "Jane Doe",
-                  "email": "jane.doe@example.com",
-                  "password": "yourPassword123"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
+          },
+          "401": {
+            "description": "Unauthorized",
             "headers": {
               "X-Powered-By": {
                 "schema": {
@@ -158,19 +300,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "159"
+                  "example": "25"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"9f-2i8WH+DwpA9+ah21AzA9nf6+h/s\""
+                  "example": "W/\"19-nIoxUTr5+ybmaEhtpQWNIScZDB0\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 16:57:37 GMT"
+                  "example": "Sun, 03 Nov 2024 02:02:13 GMT"
                 }
               },
               "Connection": {
@@ -192,13 +334,163 @@
                   "type": "object"
                 },
                 "example": {
-                  "id": 5,
-                  "name": "Jane Doe",
-                  "email": "jane.doe@example.com",
-                  "password": "yourPassword123",
-                  "createdAt": "2024-10-28T16:57:37.372Z",
+                  "error": "invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create Users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "dinda3",
+                  "email": "dinda3@mail.com",
+                  "password": "password",
+                  "identityType": "ktp",
+                  "identityNumber": "1234567890123457",
+                  "address": "Jl. Melati"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "236"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"ec-96nB3DwEb53KZcL8ZWiDvDeB6Gs\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:03:55 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "id": 4,
+                  "name": "dinda3",
+                  "email": "dinda3@mail.com",
+                  "createdAt": "2024-11-03T02:03:55.720Z",
                   "updatedAt": null,
-                  "deletedAt": null
+                  "deletedAt": null,
+                  "Profile": {
+                    "id": 3,
+                    "user_id": 4,
+                    "identity_type": "ktp",
+                    "identity_number": "1234567890123457",
+                    "address": "Jl. Melati"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:03:38 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
                 }
               }
             }
@@ -206,12 +498,17 @@
         }
       }
     },
-    "/api/v1/users/1": {
+    "/users/1": {
       "get": {
         "tags": [
-          "user"
+          "users"
         ],
-        "summary": "detail",
+        "summary": "Get One User",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -231,19 +528,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "159"
+                  "example": "234"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"9f-T9HO3p0HnsVeVKNgtmNa1OgWggA\""
+                  "example": "W/\"ea-2NGpN47QRiyC9+Xe4fWmNOkMHy4\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 16:55:24 GMT"
+                  "example": "Sun, 03 Nov 2024 02:02:53 GMT"
                 }
               },
               "Connection": {
@@ -266,12 +563,132 @@
                 },
                 "example": {
                   "id": 1,
-                  "name": "Jane Doe",
-                  "email": "jane.doe@example.com",
-                  "password": "yourPassword123",
-                  "createdAt": "2024-10-19T08:03:36.974Z",
+                  "name": "dinda",
+                  "email": "dinda@mail.com",
+                  "createdAt": "2024-11-02T17:32:43.625Z",
                   "updatedAt": null,
-                  "deletedAt": null
+                  "deletedAt": null,
+                  "Profile": {
+                    "id": 1,
+                    "user_id": 1,
+                    "identity_type": "ktp",
+                    "identity_number": "1234567890123457",
+                    "address": "Jl. Melati"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:02:40 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "28"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1c-ZEVVcvtFhxKX/QUvVKqKxwGbbNA\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:10:16 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "User not found"
                 }
               }
             }
@@ -279,12 +696,17 @@
         }
       }
     },
-    "/api/v1/accounts": {
+    "/accounts": {
       "get": {
         "tags": [
-          "account"
+          "accounts"
         ],
-        "summary": "all",
+        "summary": "Get All Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -304,19 +726,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "517"
+                  "example": "353"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"205-zoDRiA2nbGWoXoflGQWFC1ocYGE\""
+                  "example": "W/\"161-BqjnTPmEk1+10P6mbQYNnkllYaQ\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 16:59:49 GMT"
+                  "example": "Sun, 03 Nov 2024 02:05:02 GMT"
                 }
               },
               "Connection": {
@@ -341,46 +763,247 @@
                   {
                     "id": 1,
                     "user_id": 1,
-                    "bank_name": "Default Bank",
-                    "bank_account_number": "123456789",
-                    "balance": "1000",
-                    "createdAt": "2024-10-19T13:35:38.829Z",
+                    "bank_name": "Bank Dinda 3",
+                    "bank_account_number": "1234567899",
+                    "balance": "3000000",
+                    "createdAt": "2024-11-02T17:50:16.288Z",
                     "updatedAt": null,
                     "deletedAt": null
                   },
                   {
                     "id": 2,
                     "user_id": 1,
-                    "bank_name": "Default Bank",
-                    "bank_account_number": "123456789",
-                    "balance": "1000",
-                    "createdAt": "2024-10-20T13:50:46.392Z",
-                    "updatedAt": null,
-                    "deletedAt": null
-                  },
-                  {
-                    "id": 3,
-                    "user_id": 1,
-                    "bank_name": "Default Bank",
-                    "bank_account_number": "123456789",
-                    "balance": "1000",
-                    "createdAt": "2024-10-21T01:46:48.409Z",
+                    "bank_name": "Bank Dinda 2",
+                    "bank_account_number": "1234567899",
+                    "balance": "3000000",
+                    "createdAt": "2024-11-02T18:05:14.851Z",
                     "updatedAt": null,
                     "deletedAt": null
                   }
                 ]
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:04:48 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "accounts"
+        ],
+        "summary": "Create Account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "userId": 1,
+                  "bankName": "Bank Dinda 2",
+                  "bankAccountNumber": "1234567899",
+                  "balance": 3000000
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "175"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"af-KP9zKJY4N41oqjMGRQetiE3NTwM\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:06:33 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "id": 3,
+                  "user_id": 1,
+                  "bank_name": "Bank Dinda 2",
+                  "bank_account_number": "1234567899",
+                  "balance": "3000000",
+                  "createdAt": "2024-11-03T02:06:33.622Z",
+                  "updatedAt": null,
+                  "deletedAt": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:06:18 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/v1/accounts/1": {
+    "/accounts/1": {
       "get": {
         "tags": [
-          "account"
+          "accounts"
         ],
-        "summary": "detail",
+        "summary": "Get One Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -400,19 +1023,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "171"
+                  "example": "175"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"ab-HHWF8QmcaD/URqKcxd8j9I98BYk\""
+                  "example": "W/\"af-oyHlyAzjSUmluPzT/nyoPtLJCV8\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 17:00:31 GMT"
+                  "example": "Sun, 03 Nov 2024 02:05:39 GMT"
                 }
               },
               "Connection": {
@@ -436,40 +1059,18 @@
                 "example": {
                   "id": 1,
                   "user_id": 1,
-                  "bank_name": "Default Bank",
-                  "bank_account_number": "123456789",
-                  "balance": "1000",
-                  "createdAt": "2024-10-19T13:35:38.829Z",
+                  "bank_name": "Bank Dinda 3",
+                  "bank_account_number": "1234567899",
+                  "balance": "3000000",
+                  "createdAt": "2024-11-02T17:50:16.288Z",
                   "updatedAt": null,
                   "deletedAt": null
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "store",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "userId": 5
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
+          },
+          "401": {
+            "description": "Unauthorized",
             "headers": {
               "X-Powered-By": {
                 "schema": {
@@ -486,19 +1087,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "integer",
-                  "example": "168"
+                  "example": "29"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"a8-fdcQ13LQgpr5cG/g9rg6qsK/fiE\""
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 17:03:16 GMT"
+                  "example": "Sun, 03 Nov 2024 02:05:25 GMT"
                 }
               },
               "Connection": {
@@ -520,14 +1121,64 @@
                   "type": "object"
                 },
                 "example": {
-                  "id": 5,
-                  "user_id": 5,
-                  "bank_name": "Default Bank",
-                  "bank_account_number": "123456789",
-                  "balance": "0",
-                  "createdAt": "2024-10-28T17:03:16.627Z",
-                  "updatedAt": null,
-                  "deletedAt": null
+                  "error": "No token provided"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "31"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1f-JkY0DvpxbEny7Houx5m94RC0biQ\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:08:48 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Account not found"
                 }
               }
             }
@@ -535,12 +1186,295 @@
         }
       }
     },
-    "/api/v1/transactions": {
+    "/transactions": {
       "get": {
         "tags": [
-          "transaction"
+          "transactions"
         ],
-        "summary": "all",
+        "summary": "Get All Transaction",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "78"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4e-WMeDiuXjx3EmNpjdG2HBCFg7zAI\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:07:03 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "source_account_id": 1,
+                    "destination_account_id": 2,
+                    "amount": "2000000"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:06:51 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get One Transaction Copy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "sourceAccountId": 1,
+                  "destinationAccountId": 2,
+                  "amount": 2000000
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "76"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4c-JCUG9M8c5qs1GKTzfSuRJmEsfVY\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:08:29 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "id": 3,
+                  "source_account_id": 1,
+                  "destination_account_id": 2,
+                  "amount": "2000000"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:08:07 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/1": {
+      "get": {
+        "tags": [
+          "transactions"
+        ],
+        "summary": "Get One Transaction",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -566,85 +1500,13 @@
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"4c-n0CmpcXUFH2qiDvLeX9YUoa43Eo\""
+                  "example": "W/\"4c-HPrl2fCg3InHQEtzl7jFgLJaCow\""
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Mon, 28 Oct 2024 17:05:08 GMT"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": [
-                  {
-                    "id": 1,
-                    "source_account_id": 1,
-                    "destination_account_id": 1,
-                    "amount": "50000"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/transactions/1": {
-      "get": {
-        "tags": [
-          "transaction"
-        ],
-        "summary": "detail",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json; charset=utf-8"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "integer",
-                  "example": "74"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"4a-MFrhYDkdoRfoSIEs1ZlHttOGuDY\""
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Mon, 28 Oct 2024 17:05:58 GMT"
+                  "example": "Sun, 03 Nov 2024 02:07:36 GMT"
                 }
               },
               "Connection": {
@@ -668,8 +1530,122 @@
                 "example": {
                   "id": 1,
                   "source_account_id": 1,
-                  "destination_account_id": 1,
-                  "amount": "50000"
+                  "destination_account_id": 2,
+                  "amount": "2000000"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "29"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:07:17 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "No token provided"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "35"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"23-l9tJ1eYfMXboaoT68Eh78gFH/2Y\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 03 Nov 2024 02:07:48 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Transaction not found"
                 }
               }
             }

@@ -1,73 +1,7 @@
-// const { prisma } = require('../../index');
-// const { createAccount, getAccounts, getAccountDetails } = require("../accountService");
-
-// jest.mock("../../index", () => ({
-//     prisma: {
-//         bank_account: {
-//             create: jest.fn(),
-//             findMany: jest.fn(),
-//             findUnique: jest.fn(),
-//         },
-//     }
-// }))
-
-
-// describe("accountService", () => {
-//     beforeEach(() => {
-//         jest.resetAllMocks();
-//         jest.restoreAllMocks();
-//     });
-
-//     describe("create account testing", () => {
-//         it("should return success create account", async () => {
-//             const insertData = {
-//                 balance: 15000000,
-//                 userId: 1
-//             };
-
-//             const mockData = 
-//             {
-//                 "id": 6,
-//                 "user_id": 1,
-//                 "bank_name": "Default Bank",
-//                 "bank_account_number": "123456789",
-//                 "balance": "15000000",
-//                 "createdAt": "2024-10-29T09:27:20.527Z",
-//                 "updatedAt": null,
-//                 "deletedAt": null
-//             }
-            
-//             prisma.bank_account.create.mockResolvedValue(mockData);
-            
-//             const result = await createAccount(insertData);
-
-//             expect(prisma.bank_account.create).toHaveBeenCalledTimes(1);
-//             expect(result).toEqual(mockData);
-
-//             expect(prisma.bank_account.create).toHaveBeenCalledWith({
-//                 data: insertData,
-//             });
-            
-//         })
-//     })
-
-    
-//     describe("getAccounts", () => {
-//         it("should return success getAccount", async () => {
-            
-            
-//         })
-//     })
-    
-//     describe()
-
-// });
-
-
-const { prisma } = require('../../index');
+const { prisma } = require('../../configs/database');
 const { createAccount, getAccounts, getAccountDetails } = require("../accountService");
 
-jest.mock("../../index", () => ({
+jest.mock("../../configs/database", () => ({
     prisma: {
         bank_account: {
             create: jest.fn(),
@@ -87,7 +21,9 @@ describe("accountService", () => {
         it("should return success create account", async () => {
             const insertData = {
                 balance: 15000000,
-                userId: 1
+                userId: 1,
+                bankName: "Default Bank",
+                bankAccountNumber: "123456789"
             };
 
             const mockData = {
@@ -108,7 +44,12 @@ describe("accountService", () => {
             expect(prisma.bank_account.create).toHaveBeenCalledTimes(1);
             expect(result).toEqual(mockData);
             expect(prisma.bank_account.create).toHaveBeenCalledWith({
-                data: insertData,
+                data: {
+                    balance: insertData.balance,
+                    user_id: insertData.userId,
+                    bank_name: insertData.bankName,
+                    bank_account_number: insertData.bankAccountNumber
+                }
             });
         });
     });

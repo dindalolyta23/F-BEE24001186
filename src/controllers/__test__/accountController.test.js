@@ -1,43 +1,7 @@
-// const { createAccount, getAccounts, getAccountDetails } = require('../db/services/accountService');
-
-// const addNewAccount = async (req, res) => {
-//   try {
-//     const account = await createAccount(req.body);
-//     res.status(201).json(account);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// const getAllAccounts = async (req, res) => {
-//   try {
-//     const accounts = await getAccounts();
-//     res.status(200).json(accounts);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// const getAccountById = async (req, res) => {
-//   try {
-//     const account = await getAccountDetails(req.params.accountId);
-//     if (account) {
-//       res.status(200).json(account);
-//     } else {
-//       res.status(404).json({ message: 'Account not found' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// module.exports = { addNewAccount,getAllAccounts, getAccountById };
-
-// Unit test for the accountController.js file
 const { addNewAccount, getAllAccounts, getAccountById } = require('../accountController');
-const accountService = require('../../db/services/accountService');
+const accountService = require('../../services/accountService');
 
-jest.mock('../../db/services/accountService');
+jest.mock('../../services/accountService');
 
 describe('accountController', () => {
     let req;
@@ -56,17 +20,71 @@ describe('accountController', () => {
 
     describe('addNewAccount', () => {
         it('should return 201 and the new account', async () => {
-            const newAccount = { id: 1, name: 'John Doe' };
-            accountService.createAccount.mockResolvedValue(newAccount);
+            const newAccount = { 
+                userId: 1,
+                bankName: "Bank Dinda 3",
+                bankAccountNumber: "1234567899",
+                balance: 3000000
+            };
+
+            const mockResponse = {
+                "id": 1,
+                "user_id": 1,
+                "bank_name": "Bank Dinda 3",
+                "bank_account_number": "1234567899",
+                "balance": "3000000",
+                "createdAt": "2024-11-02T17:50:16.288Z",
+                "updatedAt": null,
+                "deletedAt": null
+            };
+            
+            accountService.createAccount.mockResolvedValue(mockResponse);
+            req.body = newAccount;
 
             await addNewAccount(req, res);
 
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith(newAccount);
+            expect(res.json).toHaveBeenCalledWith(mockResponse);
+
         });
 
-        it('should return 500 and an error message when accountService.createAccount throws an error', async () => {
+        it('should return 400 when the request body is invalid', async () => {
+            const newAccount = { 
+                userId: 1,
+                bankName: "Bank Dinda 3",
+                bankAccountNumber: "1234567899",
+                balance: -3000000
+            };
+
+            const error = {
+                details: [
+                    {
+                        message: '"balance" must be greater than 0',
+                    },
+                ],
+            };
+
+            accountService.createAccount.mockResolvedValue(newAccount);
+            req.body = newAccount;
+
+            await addNewAccount(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+
+            expect(res.json).toHaveBeenCalledWith({ error: error.details[0].message });
+
+        });
+
+        it('should return 500', async () => {
+            const newAccount = { 
+                userId: 1,
+                bankName: "Bank Dinda 3",
+                bankAccountNumber: "1234567899",
+                balance: 3000000
+            };
+
             accountService.createAccount.mockRejectedValue(new Error('Failed to create account'));
+            req.body = newAccount;
 
             await addNewAccount(req, res);
 
@@ -118,6 +136,17 @@ describe('accountController', () => {
             expect(res.json).toHaveBeenCalledWith({ message: 'Account not found' });
 
         });
+
+        it('should return 500 and an error message when accountService.getAccountDetails throws an error', async () => {
+            accountService.getAccountDetails.mockRejectedValue(new Error('Failed to get account'));
+            req.params.accountId = '1';
+
+            await getAccountById(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: 'Failed to get account' });
+        });
+
     });
 
 });
