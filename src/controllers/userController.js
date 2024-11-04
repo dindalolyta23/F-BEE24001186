@@ -36,4 +36,19 @@ const getUserDetails = async (req, res) => {
   }
 };
 
-module.exports = { createNewUser, getAllUsers, getUserDetails };
+const uploadImage = async (req, res) => {
+  try {
+    const user = await getUserById(req.params.userId);
+    if (user) {
+      user.image = req.file.path;
+      await user.save();
+      res.status(200).json({ message: 'Image uploaded successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createNewUser, getAllUsers, getUserDetails, uploadImage};
