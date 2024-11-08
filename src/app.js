@@ -5,7 +5,8 @@ const app = express();
 const { verifyToken } = require('./middleware/auth');
 const swaggerDocument = require('./docs/swagger.json');
 const errorHandler = require('./middleware/errorHandler');
-const mediaRouter = require('./routes/media.routes'); // Tanpa '../src'
+const mediaRouter = require('./routes/media.routes');
+// Tanpa '../src'
 
 // Middleware untuk parsing JSON dan URL-encoded
 app.use(express.json());
