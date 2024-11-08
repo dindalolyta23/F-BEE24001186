@@ -37,11 +37,6 @@ jobs:
         env:
           NODE_ENV: test
         run: npm test
-      - name: Run tests
-        env:
-          NODE_ENV: test
-        run: npm test
-
       - name: Generate coverage report
         run: npm run coverage
 
