@@ -37,3 +37,18 @@ jobs:
         env:
           NODE_ENV: test
         run: npm test
+      - name: Run tests
+        env:
+          NODE_ENV: test
+        run: npm test
+
+      - name: Generate coverage report
+        run: npm run coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-coverage-report
