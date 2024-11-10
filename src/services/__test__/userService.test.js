@@ -1,6 +1,6 @@
 const { createUser, getUsers, getUserById, login } = require("../userService");
 const { prisma } = require('../../configs/database');
-const jwt = require('jsonwebtoken');
+const imagekit = require('../../configs/imagekit');
 const bcrypt = require('bcrypt');
 
 jest.mock("../../configs/database", () => ({
@@ -13,8 +13,8 @@ jest.mock("../../configs/database", () => ({
     },
 }));
 
-jest.mock('jsonwebtoken', () => ({
-    sign: jest.fn(),
+jest.mock("../../configs/imagekit", () => ({
+    upload: jest.fn(),
 }));
 
 jest.mock('bcrypt', () => ({

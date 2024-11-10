@@ -347,58 +347,6 @@
 					},
 					"response": [
 						{
-							"name": "401",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/users/1",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"users",
-										"1"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:02:40 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
-						{
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -449,6 +397,58 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 1,\n    \"name\": \"dinda\",\n    \"email\": \"dinda@mail.com\",\n    \"createdAt\": \"2024-11-02T17:32:43.625Z\",\n    \"updatedAt\": null,\n    \"deletedAt\": null,\n    \"Profile\": {\n        \"id\": 1,\n        \"user_id\": 1,\n        \"identity_type\": \"ktp\",\n        \"identity_number\": \"1234567890123457\",\n        \"address\": \"Jl. Melati\"\n    }\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:02:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						},
 						{
 							"name": "404",
@@ -540,6 +540,66 @@
 					},
 					"response": [
 						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"dinda3\",\r\n    \"email\": \"dinda3@mail.com\",\r\n    \"password\": \"password\",\r\n    \"identityType\": \"ktp\",\r\n    \"identityNumber\": \"1234567890123457\",\r\n    \"address\": \"Jl. Melati\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "236"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ec-96nB3DwEb53KZcL8ZWiDvDeB6Gs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:03:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"name\": \"dinda3\",\n    \"email\": \"dinda3@mail.com\",\n    \"createdAt\": \"2024-11-03T02:03:55.720Z\",\n    \"updatedAt\": null,\n    \"deletedAt\": null,\n    \"Profile\": {\n        \"id\": 3,\n        \"user_id\": 4,\n        \"identity_type\": \"ktp\",\n        \"identity_number\": \"1234567890123457\",\n        \"address\": \"Jl. Melati\"\n    }\n}"
+						},
+						{
 							"name": "401",
 							"originalRequest": {
 								"method": "POST",
@@ -598,7 +658,47 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"error\": \"No token provided\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Image Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/urang/Pictures/tamvan.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/users/my-profile/image",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"my-profile",
+								"image"
+							]
+						}
+					},
+					"response": [
 						{
 							"name": "201",
 							"originalRequest": {
@@ -658,6 +758,66 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 4,\n    \"name\": \"dinda3\",\n    \"email\": \"dinda3@mail.com\",\n    \"createdAt\": \"2024-11-03T02:03:55.720Z\",\n    \"updatedAt\": null,\n    \"deletedAt\": null,\n    \"Profile\": {\n        \"id\": 3,\n        \"user_id\": 4,\n        \"identity_type\": \"ktp\",\n        \"identity_number\": \"1234567890123457\",\n        \"address\": \"Jl. Melati\"\n    }\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"dinda3\",\r\n    \"email\": \"dinda3@mail.com\",\r\n    \"password\": \"password\",\r\n    \"identityType\": \"ktp\",\r\n    \"identityNumber\": \"1234567890123457\",\r\n    \"address\": \"Jl. Melati\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:03:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						}
 					]
 				}
@@ -692,57 +852,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "401",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"accounts"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:04:48 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
 						{
 							"name": "200",
 							"originalRequest": {
@@ -793,6 +902,57 @@
 							],
 							"cookie": [],
 							"body": "[\n    {\n        \"id\": 1,\n        \"user_id\": 1,\n        \"bank_name\": \"Bank Dinda 3\",\n        \"bank_account_number\": \"1234567899\",\n        \"balance\": \"3000000\",\n        \"createdAt\": \"2024-11-02T17:50:16.288Z\",\n        \"updatedAt\": null,\n        \"deletedAt\": null\n    },\n    {\n        \"id\": 2,\n        \"user_id\": 1,\n        \"bank_name\": \"Bank Dinda 2\",\n        \"bank_account_number\": \"1234567899\",\n        \"balance\": \"3000000\",\n        \"createdAt\": \"2024-11-02T18:05:14.851Z\",\n        \"updatedAt\": null,\n        \"deletedAt\": null\n    }\n]"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:04:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						}
 					]
 				},
@@ -823,58 +983,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "401",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/accounts/1",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"accounts",
-										"1"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:05:25 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
 						{
 							"name": "200",
 							"originalRequest": {
@@ -926,6 +1034,58 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 1,\n    \"user_id\": 1,\n    \"bank_name\": \"Bank Dinda 3\",\n    \"bank_account_number\": \"1234567899\",\n    \"balance\": \"3000000\",\n    \"createdAt\": \"2024-11-02T17:50:16.288Z\",\n    \"updatedAt\": null,\n    \"deletedAt\": null\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/accounts/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"accounts",
+										"1"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:05:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						},
 						{
 							"name": "404",
@@ -1017,66 +1177,6 @@
 					},
 					"response": [
 						{
-							"name": "401",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": 1,\r\n    \"bankName\": \"Bank Dinda 2\",\r\n    \"bankAccountNumber\": \"1234567899\",\r\n    \"balance\": 3000000\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"accounts"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:06:18 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
-						{
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1135,6 +1235,66 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 3,\n    \"user_id\": 1,\n    \"bank_name\": \"Bank Dinda 2\",\n    \"bank_account_number\": \"1234567899\",\n    \"balance\": \"3000000\",\n    \"createdAt\": \"2024-11-03T02:06:33.622Z\",\n    \"updatedAt\": null,\n    \"deletedAt\": null\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"bankName\": \"Bank Dinda 2\",\r\n    \"bankAccountNumber\": \"1234567899\",\r\n    \"balance\": 3000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:06:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						}
 					]
 				}
@@ -1169,57 +1329,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "401",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/transactions",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"transactions"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:06:51 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
 						{
 							"name": "200",
 							"originalRequest": {
@@ -1270,6 +1379,57 @@
 							],
 							"cookie": [],
 							"body": "[\n    {\n        \"id\": 1,\n        \"source_account_id\": 1,\n        \"destination_account_id\": 2,\n        \"amount\": \"2000000\"\n    }\n]"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/transactions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:06:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						}
 					]
 				},
@@ -1300,58 +1460,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "401",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/transactions/2",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"transactions",
-										"2"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:07:17 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
 						{
 							"name": "200",
 							"originalRequest": {
@@ -1403,6 +1511,58 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 1,\n    \"source_account_id\": 1,\n    \"destination_account_id\": 2,\n    \"amount\": \"2000000\"\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/transactions/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"transactions",
+										"2"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:07:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						},
 						{
 							"name": "404",
@@ -1494,66 +1654,6 @@
 					},
 					"response": [
 						{
-							"name": "401",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"sourceAccountId\": 1,\r\n    \"destinationAccountId\": 2,\r\n    \"amount\": 2000000\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/transactions",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"transactions"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "29"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 03 Nov 2024 02:08:07 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"error\": \"No token provided\"\n}"
-						},
-						{
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1612,6 +1712,66 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 3,\n    \"source_account_id\": 1,\n    \"destination_account_id\": 2,\n    \"amount\": \"2000000\"\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sourceAccountId\": 1,\r\n    \"destinationAccountId\": 2,\r\n    \"amount\": 2000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/transactions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-TdeScqFQy+dbnhB6tfnSArDhevg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:08:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"No token provided\"\n}"
 						}
 					]
 				}

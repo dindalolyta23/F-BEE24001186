@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById } = require('../services/userService');
+const { createUser, getUsers, getUserById, updateImageProfile } = require('../services/userService');
 const userValidation = require('../validations/userValidation');
 
 const createNewUser = async (req, res) => {
@@ -36,19 +36,17 @@ const getUserDetails = async (req, res) => {
   }
 };
 
-const uploadImage = async (req, res) => {
+const uploadImageProfile = async (req, res) => {
   try {
-    const user = await getUserById(req.params.userId);
-    if (user) {
-      user.image = req.file.path;
-      await user.save();
-      res.status(200).json({ message: 'Image uploaded successfully' });
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    if(!req.file) {
+      return res.status(400).json({ error: 'Image is required' });
     }
+    const user = await updateImageProfile(req.user.userId, req.file);
+    res.status(200).json(user);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { createNewUser, getAllUsers, getUserDetails, uploadImage};
+module.exports = { createNewUser, getAllUsers, getUserDetails, uploadImageProfile};

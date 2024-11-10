@@ -7,51 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User { 
+model User {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?
+  deletedAt    DateTime?
+  Bank_account Bank_account[]
+  Profile      Profile[]
 
-  id           Int            @id @default(autoincrement()) 
-  name         String 
-  email        String         @unique 
-  password     String 
-  createdAt    DateTime       @default(now()) 
-  updatedAt    DateTime? 
-  deletedAt    DateTime? 
-  Bank_account Bank_account[] 
-  Profile      Profile[] 
-  @@map("users") 
-} 
+  @@map("users")
+}
 
-model Bank_account { 
-  id                   Int           @id @default(autoincrement()) 
+model Bank_account {
+  id                   Int           @id @default(autoincrement())
   user_id              Int
-  bank_name            String 
-  bank_account_number  String 
-  balance              Decimal       @default(0.00) 
-  createdAt            DateTime      @default(now()) 
-  updatedAt            DateTime? 
-  deletedAt            DateTime? 
-  user                 User          @relation(fields: [user_id], references: [id]) 
-  sentTransactions     Transaction[] @relation("sentTransactions") 
-  receivedTransactions Transaction[] @relation("receivedTransactions") 
-  @@map("bank_accounts") 
-} 
+  bank_name            String
+  bank_account_number  String
+  balance              Decimal       @default(0.00)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime?
+  deletedAt            DateTime?
+  user                 User          @relation(fields: [user_id], references: [id])
+  sentTransactions     Transaction[] @relation("sentTransactions")
+  receivedTransactions Transaction[] @relation("receivedTransactions")
 
-model Profile { 
-  id              Int    @id @default(autoincrement()) 
-  user_id         Int 
-  identity_type   String 
-  identity_number String 
-  address         String 
-  user            User   @relation(fields: [user_id], references: [id]) 
-  @@map("profiles") 
-} 
+  @@map("bank_accounts")
+}
 
-model Transaction { 
-  id                     Int          @id @default(autoincrement()) 
-  source_account_id      Int 
-  destination_account_id Int 
-  amount                 Decimal      @default(0.00) 
-  sourceAccount          Bank_account @relation("sentTransactions", fields: [source_account_id], references: [id]) 
-  destinationAccount     Bank_account @relation("receivedTransactions", fields: [destination_account_id], references: [id]) 
-  @@map("transactions") 
+model Profile {
+  id              Int    @id @default(autoincrement())
+  user_id         Int
+  identity_type   String
+  identity_number String
+  address         String
+  image           String?
+  user            User   @relation(fields: [user_id], references: [id])
+
+  @@map("profiles")
+}
+
+model Transaction {
+  id                     Int          @id @default(autoincrement())
+  source_account_id      Int
+  destination_account_id Int
+  amount                 Decimal      @default(0.00)
+  sourceAccount          Bank_account @relation("sentTransactions", fields: [source_account_id], references: [id])
+  destinationAccount     Bank_account @relation("receivedTransactions", fields: [destination_account_id], references: [id])
+
+  @@map("transactions")
 }
