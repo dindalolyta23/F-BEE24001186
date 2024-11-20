@@ -37,21 +37,21 @@ const login = async (data) => {
 // Forgot Password
 const forgotPassword = async (email) => {
   try {
-    // const user = await prisma.user.findUnique({ where: { email } });
-    // if (!user) {
-    //   throw new Error("No user found with this email", 404);
-    // }
-    const token = jwt.sign({ userId: "user.id"}, process.env.JWT_SECRET, {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new Error("No user found with this email", 404);
+    }
+    const token = jwt.sign({ userId: user.id}, process.env.JWT_SECRET, {
       expiresIn: "5m",
     });
-    const resetLink = `http://${process.env.APP_URL}/reset-password?token=${token}`;
+    const resetLink = `${process.env.APP_URL}/auth/reset-password?token=${token}`;
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Password Reset",
       html: `<p>You requested a password reset. Click the link below to reset your password:</p> <a href="${resetLink}">${resetLink}</a>`,
     });
-    return { message: "Password reset link sent to your email" };
+    return { message: "Password reset link sent to your email ", token_reset: token };
   } catch (error) {
     console.error("Error during password reset process:", error);
     throw error;

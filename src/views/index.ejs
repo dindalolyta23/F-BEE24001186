@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>
+        Welcome Binarian
+    </h1>
+    <p id="message"></p>
+
+    <script type="module">
+      // Menggunakan CDN socket.io-client versi ESM
+      import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+      const info = document.getElementById("message");
+
+      // Menginisialisasi koneksi ke server
+      const socket = io(
+        "ws://localhost:8000"
+      );
+
+      // Event ketika berhasil terhubung
+      socket.on("connect", () => {
+        console.log("Connected to server");
+      });
+
+      socket.on("message", (data) => {
+        info.classList.remove("hidden");
+        info.innerHTML = data;
+        setTimeout(() => {
+          info.classList.add("hidden");
+        }, 2000);
+      });
+
+      // Event ketika ada error koneksi
+      socket.on("connect_error", (err) => {
+        console.log("Connection error:", err.message);
+      });
+    </script>
+  </body>
+</html>

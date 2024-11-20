@@ -112,6 +112,215 @@
 					]
 				},
 				{
+					"name": "forgot password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"token_reset\", response.token_reset);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dinda@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/forgot-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "500",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dinda@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "456"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c8-a7Ne8T8otIYgp6mPCKEUdGbtkZQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:27:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"\\nInvalid `prisma.user.findUnique()` invocation in\\nC:\\\\Users\\\\urang\\\\Documents\\\\My_Data\\\\Development\\\\other\\\\F-BEE24001186-km7-din-banking-ch2-main\\\\src\\\\services\\\\authService.js:8:34\\n\\n  5 const login = async (data) => {\\n  6   const { email, password } = data;\\n  7 \\n→ 8   const user = await prisma.user.findUnique(\\nCan't reach database server at `localhost:5432`\\n\\nPlease make sure your database server is running at `localhost:5432`.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newPassword\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/reset-password?token={{token_reset}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token_reset}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "500",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dinda@mail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/auth/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "456"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c8-a7Ne8T8otIYgp6mPCKEUdGbtkZQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 02:27:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"\\nInvalid `prisma.user.findUnique()` invocation in\\nC:\\\\Users\\\\urang\\\\Documents\\\\My_Data\\\\Development\\\\other\\\\F-BEE24001186-km7-din-banking-ch2-main\\\\src\\\\services\\\\authService.js:8:34\\n\\n  5 const login = async (data) => {\\n  6   const { email, password } = data;\\n  7 \\n→ 8   const user = await prisma.user.findUnique(\\nCan't reach database server at `localhost:5432`\\n\\nPlease make sure your database server is running at `localhost:5432`.\"\n}"
+						}
+					]
+				},
+				{
 					"name": "not found",
 					"request": {
 						"auth": {

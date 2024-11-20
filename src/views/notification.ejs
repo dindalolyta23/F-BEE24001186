@@ -1,16 +1,40 @@
-<div>  
-    <h1 class="text-3xl font-bold mb-8">Notifikasi</h1>
-    <p class="text-sm mb-3">Pesan</p>  
-    <input type="text" id="message" readonly class="px-4 font-semibold bg-blue-200 w-full max-w-md rounded-lg h-12">
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1 class="text-3xl font-bold mb-8">Notifikasi</h1>
+      <div
+        type="text"
+        id="message"
+        readonly
+        class="px-4 font-semibold bg-blue-200 w-full max-w-md rounded-lg h-12"
+      >
+        
+      </div>
+    </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
 
-  const messageInput = document.getElementById('message');
-  socket.on("notification", (data) => {
-    messageInput.value = data.message;
-  });  
-
-</script>
+      const message = document.getElementById("message");
+      socket.on("message", (data) => {
+        const p = document.createElement("p");
+        p.style.color = "green";
+        p.textContent = data;
+        message.appendChild(p);
+      });
+      socket.on("message-fail", (data) => {
+        const p = document.createElement("p");
+        p.style.color = "red";
+        p.textContent = data;
+        message.appendChild(p);
+      });
+    </script>
+  </body>
+</html>
